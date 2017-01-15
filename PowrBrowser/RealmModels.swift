@@ -11,7 +11,7 @@ import RealmSwift
 
 class URLsAccessed : Object {
     dynamic var url = ""
-    dynamic var lastAccess = NSDate()
+    dynamic var lastAccess = ""
     dynamic var totalSeconds: Double = 0.0
     
     override static func primaryKey() -> String? {
@@ -22,7 +22,7 @@ class URLsAccessed : Object {
 class UserSessions : Object {
     
     dynamic var host = ""
-    dynamic var lastAccess = NSDate()
+    dynamic var lastAccess = ""
     dynamic var totalSeconds: Double = 0.0
     let urls = List<URLsAccessed>()
     

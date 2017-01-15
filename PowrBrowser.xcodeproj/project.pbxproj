@@ -12,6 +12,7 @@
 		A328A61E1E29CD5F007F52E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A328A61D1E29CD5F007F52E6 /* Assets.xcassets */; };
 		A328A6211E29CD5F007F52E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A328A61F1E29CD5F007F52E6 /* LaunchScreen.storyboard */; };
 		A328A62D1E29D585007F52E6 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A328A62C1E29D585007F52E6 /* WebViewController.swift */; };
+		A3498A471E2BC874006169EA /* NetworkingClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3498A461E2BC874006169EA /* NetworkingClass.swift */; };
 		A3B95C401E2A6FC100CE230C /* RealmModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B95C3F1E2A6FC100CE230C /* RealmModels.swift */; };
 		D7CC3A15E1966230E7BC3D2E /* Pods_PowrBrowser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9A078210C38026468FAF809 /* Pods_PowrBrowser.framework */; };
 /* End PBXBuildFile section */
@@ -25,6 +26,7 @@
 		A328A6201E29CD5F007F52E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A328A6221E29CD5F007F52E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A328A62C1E29D585007F52E6 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		A3498A461E2BC874006169EA /* NetworkingClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkingClass.swift; sourceTree = "<group>"; };
 		A3B95C3F1E2A6FC100CE230C /* RealmModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmModels.swift; sourceTree = "<group>"; };
 		CDB417D3452958A784ECE20F /* Pods-PowrBrowser.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PowrBrowser.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PowrBrowser/Pods-PowrBrowser.debug.xcconfig"; sourceTree = "<group>"; };
 		F9A078210C38026468FAF809 /* Pods_PowrBrowser.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PowrBrowser.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				A3B95C3F1E2A6FC100CE230C /* RealmModels.swift */,
+				A3498A461E2BC874006169EA /* NetworkingClass.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -233,6 +236,7 @@
 			files = (
 				A328A6171E29CD5F007F52E6 /* AppDelegate.swift in Sources */,
 				A3B95C401E2A6FC100CE230C /* RealmModels.swift in Sources */,
+				A3498A471E2BC874006169EA /* NetworkingClass.swift in Sources */,
 				A328A62D1E29D585007F52E6 /* WebViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

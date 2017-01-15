@@ -9,6 +9,7 @@
 import UIKit
 import WebKit
 import RealmSwift
+import SwiftyJSON
 
 class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UISearchBarDelegate {
     
@@ -145,27 +146,44 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, U
                 urlCurrent!.totalSeconds += 5.0
                 realm.add(urlCurrent!, update: true)
                 var myData = realm.objects(UserSessions.self).filter("host = '\(browserWebView.url!.host!)'").first
-                myData = UserSessions(value: ["\(myData!.host)", NSDate(), myData!.totalSeconds + 5, myData!.urls])
+                myData = UserSessions(value: ["\(myData!.host)", Date().iso8601, myData!.totalSeconds + 5, myData!.urls])
                 realm.add(myData!, update: true)
             }
             else {
-                let urlToSave = URLsAccessed(value: ["\(browserWebView.url!.absoluteString)", NSDate(), 5.0])
+                let urlToSave = URLsAccessed(value: ["\(browserWebView.url!.absoluteString)", Date().iso8601, 5.0])
                 let list = myHostData!.urls
                 list.append(urlToSave)
-                let userSession = UserSessions(value: ["\(browserWebView.url!.host!)", NSDate(), myHostData!.totalSeconds + 5.0, list])
+                let userSession = UserSessions(value: ["\(browserWebView.url!.host!)", Date().iso8601, myHostData!.totalSeconds + 5.0, list])
                 realm.add(userSession, update: true)
             }
         }
         }
         else {
-            let urlToSave = URLsAccessed(value: ["\(browserWebView.url!.absoluteString)", NSDate(), 5.0])
+            let urlToSave = URLsAccessed(value: ["\(browserWebView.url!.absoluteString)", Date().iso8601, 5.0])
             let list = List<URLsAccessed>()
             list.append(urlToSave)
-            let userSession = UserSessions(value: ["\(browserWebView.url!.host!)", NSDate(), 5.0, list])
+            let userSession = UserSessions(value: ["\(browserWebView.url!.host!)", Date().iso8601, 5.0, list])
             try! realm.write {
             realm.add(userSession, update: true)
             }
         }
+    }
+    
+    @IBAction func callSaveData(_ sender: Any) {
+        json()
+    }
+    
+    func json() {
+        
+        let realm = try! Realm()
+        let userSessions = realm.objects(UserSessions.self)
+        let array = userSessions.map { JSON($0.toDictionary()).rawString()! }
+        
+        let joiner = ","
+        var joinedStrings = array.joined(separator: joiner)
+        joinedStrings = "{ \"urls\" : [\(joinedStrings)]}"
+        print("JOIND", joinedStrings)
+        NetworkingClass.saveDataAPI(string: joinedStrings)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -196,3 +214,40 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, U
     
 }
 
+extension Date {
+    static let iso8601Formatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .iso8601)
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
+        return formatter
+    }()
+    var iso8601: String {
+        return Date.iso8601Formatter.string(from: self)
+    }
+}
+
+extension Object {
+    func toDictionary() -> NSDictionary {
+        let properties = self.objectSchema.properties.map { $0.name }
+        let dictionary = self.dictionaryWithValues(forKeys: properties)
+        let mutabledic = NSMutableDictionary()
+        mutabledic.setValuesForKeys(dictionary)
+        
+        for prop in self.objectSchema.properties as [Property]! {
+            // find lists
+            if let nestedObject = self[prop.name] as? Object {
+                mutabledic.setValue(nestedObject.toDictionary(), forKey: prop.name)
+            } else if let nestedListObject = self[prop.name] as? ListBase {
+                var objects = [AnyObject]()
+                for index in 0..<nestedListObject._rlmArray.count  {
+                    let object = nestedListObject._rlmArray[index] as AnyObject
+                    objects.append(object.toDictionary())
+                }
+                mutabledic.setObject(objects, forKey: prop.name as NSCopying)
+            }
+        }
+        return mutabledic
+    }
+}

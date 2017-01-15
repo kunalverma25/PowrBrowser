@@ -8,5 +8,6 @@ target 'PowrBrowser' do
   # Pods for PowrBrowser
 
 pod 'RealmSwift'
+pod 'SwiftyJSON'
 
 end

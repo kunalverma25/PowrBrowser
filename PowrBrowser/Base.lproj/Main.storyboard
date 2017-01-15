@@ -37,6 +37,11 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="O4g-u8-EEj"/>
+                                    <barButtonItem systemItem="save" id="61a-uQ-cfu">
+                                        <connections>
+                                            <action selector="callSaveData:" destination="BYZ-38-t0r" id="DCd-xn-UG2"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem title="✖︎" id="Dwj-Nf-QuJ">
                                         <connections>
                                             <action selector="navigationItemsPressed:" destination="BYZ-38-t0r" id="CAl-dw-q04"/>
