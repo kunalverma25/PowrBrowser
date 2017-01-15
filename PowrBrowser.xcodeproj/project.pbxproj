@@ -8,20 +8,26 @@
 
 /* Begin PBXBuildFile section */
 		A328A6171E29CD5F007F52E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A328A6161E29CD5F007F52E6 /* AppDelegate.swift */; };
-		A328A6191E29CD5F007F52E6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A328A6181E29CD5F007F52E6 /* ViewController.swift */; };
 		A328A61C1E29CD5F007F52E6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A328A61A1E29CD5F007F52E6 /* Main.storyboard */; };
 		A328A61E1E29CD5F007F52E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A328A61D1E29CD5F007F52E6 /* Assets.xcassets */; };
 		A328A6211E29CD5F007F52E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A328A61F1E29CD5F007F52E6 /* LaunchScreen.storyboard */; };
+		A328A62D1E29D585007F52E6 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A328A62C1E29D585007F52E6 /* WebViewController.swift */; };
+		A3B95C401E2A6FC100CE230C /* RealmModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B95C3F1E2A6FC100CE230C /* RealmModels.swift */; };
+		D7CC3A15E1966230E7BC3D2E /* Pods_PowrBrowser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9A078210C38026468FAF809 /* Pods_PowrBrowser.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5CD466A1802D8E9A5FDA0D6E /* Pods-PowrBrowser.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PowrBrowser.release.xcconfig"; path = "Pods/Target Support Files/Pods-PowrBrowser/Pods-PowrBrowser.release.xcconfig"; sourceTree = "<group>"; };
 		A328A6131E29CD5F007F52E6 /* PowrBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PowrBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A328A6161E29CD5F007F52E6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A328A6181E29CD5F007F52E6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A328A61B1E29CD5F007F52E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A328A61D1E29CD5F007F52E6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A328A6201E29CD5F007F52E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A328A6221E29CD5F007F52E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A328A62C1E29D585007F52E6 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		A3B95C3F1E2A6FC100CE230C /* RealmModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmModels.swift; sourceTree = "<group>"; };
+		CDB417D3452958A784ECE20F /* Pods-PowrBrowser.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PowrBrowser.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PowrBrowser/Pods-PowrBrowser.debug.xcconfig"; sourceTree = "<group>"; };
+		F9A078210C38026468FAF809 /* Pods_PowrBrowser.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PowrBrowser.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7CC3A15E1966230E7BC3D2E /* Pods_PowrBrowser.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +47,8 @@
 			children = (
 				A328A6151E29CD5F007F52E6 /* PowrBrowser */,
 				A328A6141E29CD5F007F52E6 /* Products */,
+				DAE97E2F363EA65CD199AFE8 /* Pods */,
+				A83A0E002A2F6EC3014058DE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,14 +63,48 @@
 		A328A6151E29CD5F007F52E6 /* PowrBrowser */ = {
 			isa = PBXGroup;
 			children = (
+				A328A62B1E29D56C007F52E6 /* Controllers */,
+				A328A6281E29CE30007F52E6 /* Model */,
 				A328A6161E29CD5F007F52E6 /* AppDelegate.swift */,
-				A328A6181E29CD5F007F52E6 /* ViewController.swift */,
 				A328A61A1E29CD5F007F52E6 /* Main.storyboard */,
 				A328A61D1E29CD5F007F52E6 /* Assets.xcassets */,
 				A328A61F1E29CD5F007F52E6 /* LaunchScreen.storyboard */,
 				A328A6221E29CD5F007F52E6 /* Info.plist */,
 			);
 			path = PowrBrowser;
+			sourceTree = "<group>";
+		};
+		A328A6281E29CE30007F52E6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A3B95C3F1E2A6FC100CE230C /* RealmModels.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		A328A62B1E29D56C007F52E6 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				A328A62C1E29D585007F52E6 /* WebViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		A83A0E002A2F6EC3014058DE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F9A078210C38026468FAF809 /* Pods_PowrBrowser.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DAE97E2F363EA65CD199AFE8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CDB417D3452958A784ECE20F /* Pods-PowrBrowser.debug.xcconfig */,
+				5CD466A1802D8E9A5FDA0D6E /* Pods-PowrBrowser.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,9 +114,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A328A6251E29CD5F007F52E6 /* Build configuration list for PBXNativeTarget "PowrBrowser" */;
 			buildPhases = (
+				9FA794547EB77CA33B4E1DBE /* [CP] Check Pods Manifest.lock */,
 				A328A60F1E29CD5F007F52E6 /* Sources */,
 				A328A6101E29CD5F007F52E6 /* Frameworks */,
 				A328A6111E29CD5F007F52E6 /* Resources */,
+				55C0884649DFFC90CEF15D46 /* [CP] Embed Pods Frameworks */,
+				97A5E1B5F97041C3187FC4F4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -132,13 +178,62 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		55C0884649DFFC90CEF15D46 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PowrBrowser/Pods-PowrBrowser-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		97A5E1B5F97041C3187FC4F4 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PowrBrowser/Pods-PowrBrowser-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9FA794547EB77CA33B4E1DBE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		A328A60F1E29CD5F007F52E6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A328A6191E29CD5F007F52E6 /* ViewController.swift in Sources */,
 				A328A6171E29CD5F007F52E6 /* AppDelegate.swift in Sources */,
+				A3B95C401E2A6FC100CE230C /* RealmModels.swift in Sources */,
+				A328A62D1E29D585007F52E6 /* WebViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,10 +354,12 @@
 		};
 		A328A6261E29CD5F007F52E6 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CDB417D3452958A784ECE20F /* Pods-PowrBrowser.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = B75YN3KWEL;
 				INFOPLIST_FILE = PowrBrowser/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.powr.PowrBrowser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -272,10 +369,12 @@
 		};
 		A328A6271E29CD5F007F52E6 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5CD466A1802D8E9A5FDA0D6E /* Pods-PowrBrowser.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = B75YN3KWEL;
 				INFOPLIST_FILE = PowrBrowser/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.powr.PowrBrowser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -302,6 +401,7 @@
 				A328A6271E29CD5F007F52E6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
