@@ -1,17 +1,19 @@
 //
-//  ViewController.swift
+//  WebView.swift
 //  PowrBrowser
 //
-//  Created by Kunal Verma on 14/01/17.
+//  Created by Kunal Verma on 21/01/17.
 //  Copyright © 2017 Kunal Verma. All rights reserved.
 //
 
 import UIKit
+import FontAwesome_swift
 import WebKit
 import RealmSwift
 import SwiftyJSON
+import SCLAlertView
 
-class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, UISearchBarDelegate {
+class WebView: UIView, WKNavigationDelegate, WKUIDelegate, UISearchBarDelegate {
     
     @IBOutlet weak var baseView: UIView!
     @IBOutlet weak var progressView: UIProgressView!
@@ -19,43 +21,110 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, U
     @IBOutlet weak var backButton: UIBarButtonItem!
     @IBOutlet weak var forwardButton: UIBarButtonItem!
     @IBOutlet weak var reloadStopButton: UIBarButtonItem!
+    @IBOutlet weak var bookmarkBtn: UIButton!
     
-    var addressField : UITextField?
     var browserWebView : WKWebView!
     var timer1 = Timer()
+    var mainView: MainViewController?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        print(Realm.Configuration.defaultConfiguration.fileURL)
+    var visitDate = ""
+    var localDate = ""
+    var transition = "new tab"
+    var previousURL = ""
+    
+    var bookmarks : Results<Bookmark>!
+
+    static func instanceFromNib() -> WebView {
+        return UINib(nibName: "WebView", bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! WebView
+    }
+    
+    override func awakeFromNib() {
         browserWebView = WKWebView()
         baseView.addSubview(browserWebView)
         browserWebView.navigationDelegate = self
         browserWebView.uiDelegate = self
         browserWebView.allowsBackForwardNavigationGestures = true
-        let statusBar: UIView = UIApplication.shared.value(forKey: "statusBar") as! UIView
-        if statusBar.responds(to: #selector(setter: UIView.backgroundColor)){
-            statusBar.backgroundColor = UIColor(red: 201/255, green: 201/255, blue: 206/255, alpha: 1)
-        }
         addressBar.autocapitalizationType = .none
         addressBar.returnKeyType = .go
         addressBar.delegate = self
         addressBar.setImage(UIImage(named: "go"), for: .search, state: .normal)
         browserWebView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
-        browserWebView.addObserver(self, forKeyPath: "canGoBack", options: .new, context: nil)
-        browserWebView.addObserver(self, forKeyPath: "canGoForward", options: .new, context: nil)
         loadWebView("http://google.com/")
+        checkBookMark()
+    }
+    
+    @IBAction func bookmarkPressed(_ sender: Any) {
+        let realm = try! Realm()
+        let alertView = SCLAlertView()
+        let (bkmark , isBkmrk) = checkBookMark()
+        if isBkmrk {
+            var nameField = alertView.addTextField(bkmark?.Name)
+            var urlField = alertView.addTextField(bkmark?.Url)
+            nameField.text = bkmark?.Name
+            urlField.text = bkmark?.Url
+            alertView.addButton("Save Bookmark", action: {
+                try! realm.write {
+                    let dataToSave = Bookmark(value: ["\(bkmark!.Name)", "\(bkmark!.Url)"])
+                    realm.add(dataToSave, update: true)
+                }
+                self.checkBookMark()
+            })
+            alertView.addButton("Remove Bookmark", action: {
+                try! realm.write {
+                    realm.delete(bkmark!)
+                }
+                self.checkBookMark()
+            })
+        }
+        else {
+            var nameField = alertView.addTextField(browserWebView.title)
+            var urlField = alertView.addTextField(browserWebView.url?.absoluteString)
+            nameField.text = browserWebView.title
+            urlField.text = browserWebView.url?.absoluteString
+            alertView.addButton("Save Bookmark", action: {
+                try! realm.write {
+                    let dataToSave = Bookmark(value: ["\(nameField.text!)", "\(urlField.text!)"])
+                    realm.add(dataToSave, update: true)
+                }
+                self.checkBookMark()
+            })
+        }
+        alertView.showEdit("Edit Bookmark", subTitle: "Save Your Bookmark")
+    }
+    
+    
+    func checkBookMark() -> (Bookmark?, Bool) {
+        let realm = try! Realm()
+        var bkmark : Bookmark? = nil
+        bookmarks = realm.objects(Bookmark)
+        print(bookmarks)
+        var isBkmrk = false
+        
+        for bookmark in bookmarks {
+            if bookmark.Url == browserWebView.url?.absoluteString {
+                isBkmrk = true
+                bkmark = bookmark
+            }
+        }
+        
+        if isBkmrk {
+            let s1 = (NSMutableAttributedString(string: String.fontAwesomeIcon(code: "fa-star")!, attributes: [NSFontAttributeName: UIFont.fontAwesome(ofSize: 28), NSForegroundColorAttributeName: UIColor(red: 188/255, green: 24/255, blue: 0, alpha: 1)]))
+            bookmarkBtn.setAttributedTitle(s1, for: .normal)
+        }
+        else {
+            let s1 = (NSMutableAttributedString(string: String.fontAwesomeIcon(code: "fa-star-o")!, attributes: [NSFontAttributeName: UIFont.fontAwesome(ofSize: 40), NSForegroundColorAttributeName: UIColor(red: 188/255, green: 24/255, blue: 0, alpha: 1)]))
+            bookmarkBtn.setAttributedTitle(s1, for: .normal)
+            bkmark = nil
+        }
+        
+        return (bkmark, isBkmrk)
     }
     
     func loadWebView(_ str: String) {
+        
         let url = URL(string: str)!
         let req = URLRequest(url: url)
         browserWebView.load(req)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        let frame = CGRect(x: 0, y: 0, width: baseView.bounds.width, height: baseView.bounds.height)
-        browserWebView.frame = frame
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -108,7 +177,7 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, U
         let defaultAction = UIAlertAction(title: "Close", style: .default, handler: nil)
         alertController.addAction(defaultAction)
         
-        present(alertController, animated: true, completion: nil)
+        mainView?.present(alertController, animated: true, completion: nil)
     }
     
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
@@ -117,55 +186,66 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, U
         let defaultAction = UIAlertAction(title: "Close", style: .default, handler: nil)
         alertController.addAction(defaultAction)
         
-        present(alertController, animated: true, completion: nil)
+        mainView?.present(alertController, animated: true, completion: nil)
     }
     
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
         addressBar.text = webView.url?.absoluteString
+        checkBookMark()
         timer1.invalidate()
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        checkBookMark()
+        if webView.canGoBack {
+            previousURL = ("\(webView.backForwardList.backItem!.url)")
+            print(previousURL)
+            transition = "link"
+        }
+        else {
+            previousURL = ""
+            transition = "new tab"
+        }
         timer1 = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.saveData), userInfo: nil, repeats: true)
+        mainView?.tabViews[(mainView?.webViews.index(of: self))!].titleLabel.text = webView.title
+        visitDate = Date().iso8601
+        localDate = Date().localISO8601
+        
     }
     
-    func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
-        if navigationAction.targetFrame == nil {
-            webView.load(navigationAction.request)
-        }
-        return nil
+    func removeObserer() {
+        browserWebView.removeObserver(self, forKeyPath: "estimatedProgress")
     }
     
     func saveData() {
+        print(Date().iso8601)
+        print(Date().localISO8601)
         let realm = try! Realm()
-        let myHostData = realm.objects(UserSessions.self).filter("host = '\(browserWebView.url!.host!)'").first
-        if myHostData != nil {
-            let urlCurrent = realm.objects(URLsAccessed.self).filter("url = '\(browserWebView.url!)'").first
+        let myDataToSave = realm.objects(SavedInfo.self).filter("Url = '\(browserWebView.url!)'").first
+        if myDataToSave != nil {
             try! realm.write {
-            if urlCurrent != nil {
-                urlCurrent!.totalSeconds += 5.0
-                realm.add(urlCurrent!, update: true)
-                var myData = realm.objects(UserSessions.self).filter("host = '\(browserWebView.url!.host!)'").first
-                myData = UserSessions(value: ["\(myData!.host)", Date().iso8601, myData!.totalSeconds + 5, myData!.urls])
-                realm.add(myData!, update: true)
+            myDataToSave!.LifeTime += 5
+                realm.add(myDataToSave!, update: true)
             }
-            else {
-                let urlToSave = URLsAccessed(value: ["\(browserWebView.url!.absoluteString)", Date().iso8601, 5.0])
-                let list = myHostData!.urls
-                list.append(urlToSave)
-                let userSession = UserSessions(value: ["\(browserWebView.url!.host!)", Date().iso8601, myHostData!.totalSeconds + 5.0, list])
-                realm.add(userSession, update: true)
-            }
-        }
         }
         else {
-            let urlToSave = URLsAccessed(value: ["\(browserWebView.url!.absoluteString)", Date().iso8601, 5.0])
-            let list = List<URLsAccessed>()
-            list.append(urlToSave)
-            let userSession = UserSessions(value: ["\(browserWebView.url!.host!)", Date().iso8601, 5.0, list])
             try! realm.write {
-            realm.add(userSession, update: true)
+            let dataToSave = SavedInfo(value: ["\(UIDevice.current.identifierForVendor!.uuidString)", "\(browserWebView.url!)", "\(browserWebView.url!.host!)", "\(Date().iso8601)", transition, 5, "\(Date().localISO8601)", previousURL, "0"])
+            
+                realm.add(dataToSave, update: true)
             }
+        }
+    }
+    
+    func showPopUp() {
+        let realm = try! Realm()
+        bookmarks = realm.objects(Bookmark)
+        if bookmarks.count > 0 {
+        var x = BookMarkList.instanceFromNib()
+        x.bookmarks = bookmarks
+        x.frame = self.bounds
+        x.loadData()
+        x.displayView(onView: self)
         }
     }
     
@@ -176,7 +256,7 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, U
     func json() {
         
         let realm = try! Realm()
-        let userSessions = realm.objects(UserSessions.self)
+        let userSessions = realm.objects(SavedInfo.self)
         let array = userSessions.map { JSON($0.toDictionary()).rawString()! }
         
         let joiner = ","
@@ -184,6 +264,13 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, U
         joinedStrings = "{ \"urls\" : [\(joinedStrings)]}"
         print("JOIND", joinedStrings)
         NetworkingClass.saveDataAPI(string: joinedStrings)
+    }
+    
+    func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+        if navigationAction.targetFrame == nil {
+            webView.load(navigationAction.request)
+        }
+        return nil
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -211,43 +298,5 @@ class WebViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, U
         return (text, false)
         
     }
-    
-}
 
-extension Date {
-    static let iso8601Formatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.calendar = Calendar(identifier: .iso8601)
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.timeZone = TimeZone(secondsFromGMT: 0)
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
-        return formatter
-    }()
-    var iso8601: String {
-        return Date.iso8601Formatter.string(from: self)
-    }
-}
-
-extension Object {
-    func toDictionary() -> NSDictionary {
-        let properties = self.objectSchema.properties.map { $0.name }
-        let dictionary = self.dictionaryWithValues(forKeys: properties)
-        let mutabledic = NSMutableDictionary()
-        mutabledic.setValuesForKeys(dictionary)
-        
-        for prop in self.objectSchema.properties as [Property]! {
-            // find lists
-            if let nestedObject = self[prop.name] as? Object {
-                mutabledic.setValue(nestedObject.toDictionary(), forKey: prop.name)
-            } else if let nestedListObject = self[prop.name] as? ListBase {
-                var objects = [AnyObject]()
-                for index in 0..<nestedListObject._rlmArray.count  {
-                    let object = nestedListObject._rlmArray[index] as AnyObject
-                    objects.append(object.toDictionary())
-                }
-                mutabledic.setObject(objects, forKey: prop.name as NSCopying)
-            }
-        }
-        return mutabledic
-    }
 }

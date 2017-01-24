@@ -4,6 +4,16 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>FontAwesome.swift-FontAwesome.swift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>FontAwesome.swift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-PowrBrowser.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -19,6 +29,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SCLAlertView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SWRevealViewController.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>SwiftyJSON.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -27,22 +47,42 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>659188B9273251B9F42B72FC06339409</key>
+		<key>2FB4BF582444AB7C3E0E4C7FD6E2C69B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6F2F07E2410CFC8738B65AA5CDBFABCA</key>
+		<key>31B38D49C06933FD6A320BBDDDC02B71</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B73DA4089C64164BD08112AFFEC4A8BF</key>
+		<key>41B308D7EA40281AF577924D78A6AFC7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E2BD55FCADBAAF89422727204CD7D41C</key>
+		<key>77979430716929ED71E6E262A9F9A184</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9874B09A8621EF622A8CBDF3AE0009C2</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B94E2B4E12E6806EECE6947BA7F38344</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C74D47B051BF84CA30E0723F127F42AD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D6EFF6BA34900884EFECF0BA5FE67F09</key>
 		<dict>
 			<key>primary</key>
 			<true/>

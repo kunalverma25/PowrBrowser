@@ -9,5 +9,8 @@ target 'PowrBrowser' do
 
 pod 'RealmSwift'
 pod 'SwiftyJSON'
+pod 'SWRevealViewController'
+pod 'SCLAlertView'
+pod 'FontAwesome.swift', :git=>'https://github.com/thii/FontAwesome.swift.git'
 
 end

@@ -47,7 +47,7 @@ public final class Realm {
     public var schema: Schema { return Schema(rlmRealm.schema) }
 
     /// The `Configuration` value that was used to create the `Realm` instance.
-    public var configuration: Configuration { return Configuration.fromRLMRealmConfiguration(rlmConfiguration: rlmRealm.configuration) }
+    public var configuration: Configuration { return Configuration.fromRLMRealmConfiguration(rlmRealm.configuration) }
 
     /// Indicates if the Realm contains any objects.
     public var isEmpty: Bool { return rlmRealm.isEmpty }
@@ -616,11 +616,11 @@ public final class Realm {
 
 // MARK: Equatable
 
-extension Realm: Equatable { }
-
-/// Returns whether two `Realm` isntances are equal.
-public func == (lhs: Realm, rhs: Realm) -> Bool { // swiftlint:disable:this valid_docs
-    return lhs.rlmRealm == rhs.rlmRealm
+extension Realm: Equatable {
+    /// Returns whether two `Realm` isntances are equal.
+    public static func == (lhs: Realm, rhs: Realm) -> Bool { // swiftlint:disable:this valid_docs
+        return lhs.rlmRealm == rhs.rlmRealm
+    }
 }
 
 // MARK: Notifications
