@@ -22,7 +22,7 @@ func SideMenuShow(vc: UIViewController, menuButton: UIButton) {
     }
     else {
         let screenSize: CGRect = UIScreen.main.bounds
-        vc.revealViewController().rearViewRevealWidth = screenSize.width - 60
+        vc.revealViewController().rearViewRevealWidth = screenSize.width - 80
     }
     vc.tabBarController?.tabBar.isHidden = true
     if vc.revealViewController() != nil {

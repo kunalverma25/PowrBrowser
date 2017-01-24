@@ -12,6 +12,7 @@ import WebKit
 import RealmSwift
 import SwiftyJSON
 import SCLAlertView
+import Firebase
 
 class WebView: UIView, WKNavigationDelegate, WKUIDelegate, UISearchBarDelegate {
     
@@ -22,6 +23,8 @@ class WebView: UIView, WKNavigationDelegate, WKUIDelegate, UISearchBarDelegate {
     @IBOutlet weak var forwardButton: UIBarButtonItem!
     @IBOutlet weak var reloadStopButton: UIBarButtonItem!
     @IBOutlet weak var bookmarkBtn: UIButton!
+    
+    var tabIDValue = 0
     
     var browserWebView : WKWebView!
     var timer1 = Timer()
@@ -51,6 +54,11 @@ class WebView: UIView, WKNavigationDelegate, WKUIDelegate, UISearchBarDelegate {
         browserWebView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
         loadWebView("http://google.com/")
         checkBookMark()
+        var tabID = UserDefaults.standard.integer(forKey: "tabID")
+        tabIDValue = tabID
+        tabID += 1
+        UserDefaults.standard.set(tabID, forKey: "tabID")
+        UserDefaults.standard.synchronize()
     }
     
     @IBAction func bookmarkPressed(_ sender: Any) {
@@ -64,7 +72,7 @@ class WebView: UIView, WKNavigationDelegate, WKUIDelegate, UISearchBarDelegate {
             urlField.text = bkmark?.Url
             alertView.addButton("Save Bookmark", action: {
                 try! realm.write {
-                    let dataToSave = Bookmark(value: ["\(bkmark!.Name)", "\(bkmark!.Url)"])
+                    let dataToSave = Bookmark(value: ["\(FIRAuth.auth()!.currentUser!.uid)","\(bkmark!.Name)", "\(bkmark!.Url)"])
                     realm.add(dataToSave, update: true)
                 }
                 self.checkBookMark()
@@ -83,7 +91,7 @@ class WebView: UIView, WKNavigationDelegate, WKUIDelegate, UISearchBarDelegate {
             urlField.text = browserWebView.url?.absoluteString
             alertView.addButton("Save Bookmark", action: {
                 try! realm.write {
-                    let dataToSave = Bookmark(value: ["\(nameField.text!)", "\(urlField.text!)"])
+                    let dataToSave = Bookmark(value: ["\(FIRAuth.auth()!.currentUser!.uid)", "\(nameField.text!)", "\(urlField.text!)"])
                     realm.add(dataToSave, update: true)
                 }
                 self.checkBookMark()
@@ -230,7 +238,7 @@ class WebView: UIView, WKNavigationDelegate, WKUIDelegate, UISearchBarDelegate {
         }
         else {
             try! realm.write {
-            let dataToSave = SavedInfo(value: ["\(UIDevice.current.identifierForVendor!.uuidString)", "\(browserWebView.url!)", "\(browserWebView.url!.host!)", "\(Date().iso8601)", transition, 5, "\(Date().localISO8601)", previousURL, "0"])
+            let dataToSave = SavedInfo(value: ["\(FIRAuth.auth()!.currentUser!.uid)", "\(browserWebView.url!)", "\(browserWebView.url!.host!)", "\(Date().iso8601)", transition, 5, "\(Date().localISO8601)", previousURL, "\(tabIDValue)"])
             
                 realm.add(dataToSave, update: true)
             }
@@ -246,6 +254,10 @@ class WebView: UIView, WKNavigationDelegate, WKUIDelegate, UISearchBarDelegate {
         x.frame = self.bounds
         x.loadData()
         x.displayView(onView: self)
+        }
+        else {
+            let alertView = SCLAlertView()
+            alertView.showInfo("No Bookmarks", subTitle: "You currently don't have any bookmarks.")
         }
     }
     

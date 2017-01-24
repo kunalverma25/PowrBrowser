@@ -26,6 +26,7 @@ class SavedInfo : Object {
 }
 
 class Bookmark : Object {
+    dynamic var UserID = ""
     dynamic var Name = ""
     dynamic var Url = ""
     

@@ -83,3 +83,17 @@ extension Object {
         return mutabledic
     }
 }
+
+extension UIImage {
+    func resizeWith(_ width: CGFloat) -> UIImage? {
+        let imageView = UIImageView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: width, height: width)))
+        imageView.contentMode = .scaleToFill
+        imageView.image = self
+        UIGraphicsBeginImageContextWithOptions(imageView.bounds.size, false, scale)
+        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+        imageView.layer.render(in: context)
+        guard let result = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
+        UIGraphicsEndImageContext()
+        return result
+    }
+}

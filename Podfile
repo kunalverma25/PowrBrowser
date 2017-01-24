@@ -12,5 +12,10 @@ pod 'SwiftyJSON'
 pod 'SWRevealViewController'
 pod 'SCLAlertView'
 pod 'FontAwesome.swift', :git=>'https://github.com/thii/FontAwesome.swift.git'
-
+pod 'Firebase/Core'
+pod 'Firebase/Auth'
+pod 'Firebase/Database'
+pod 'Firebase/Storage'
+pod 'UIView+Shake'
+pod 'IQKeyboardManagerSwift'
 end

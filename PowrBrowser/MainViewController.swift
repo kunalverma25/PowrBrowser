@@ -9,6 +9,7 @@
 import UIKit
 import FontAwesome_swift
 import SWRevealViewController
+import RealmSwift
 
 class MainViewController: UIViewController, ButtonDelegate {
 
@@ -22,7 +23,7 @@ class MainViewController: UIViewController, ButtonDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print(Realm.Configuration.defaultConfiguration.fileURL)
         let statusBar: UIView = UIApplication.shared.value(forKey: "statusBar") as! UIView
         if statusBar.responds(to: #selector(setter: UIView.backgroundColor)){
             statusBar.backgroundColor = UIColor(red: 201/255, green: 201/255, blue: 206/255, alpha: 1)
@@ -38,7 +39,6 @@ class MainViewController: UIViewController, ButtonDelegate {
     @IBAction func addTabPressed(_ sender: Any) {
         addTab()
     }
-    
     
     func addTab() {
         let browserView = WebView.instanceFromNib()

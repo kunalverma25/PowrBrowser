@@ -7,18 +7,24 @@
 //
 
 import UIKit
+import Firebase
 
 class MenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var vc : MainViewController?
     
     @IBOutlet weak var menuTable: UITableView!
-    var menuItems = ["Browser","Bookmarks"]
+    var menuItems = ["Browser","My Bookmarks"]
+    
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var emailLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         menuTable.delegate = self
         menuTable.dataSource = self
+        nameLabel.text = FIRAuth.auth()!.currentUser!.displayName!
+        emailLabel.text = FIRAuth.auth()!.currentUser!.email!
         // Do any additional setup after loading the view.
     }
     
@@ -55,7 +61,17 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-
+    @IBAction func profilePressed(_ sender: Any) {
+        
+        performSegue(withIdentifier: "profileSegue", sender: nil)
+        self.revealViewController().revealToggle(animated: true)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "profileSegue" {
+            (segue.destination as! ProfileViewController).vc = self.vc
+        }
+    }
 }
 
 class MenuCell: UITableViewCell {
